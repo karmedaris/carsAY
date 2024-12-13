@@ -1,0 +1,117 @@
+{% extends "./plantilla.html" %}
+{% load static %}
+{% block body %}
+    <style>
+        body {
+            font-family: 'Times New Roman', sans-serif;
+            background-color: #022a53;
+            color: #495057;
+            padding: 20px;
+            background-image: url('https://image.slidesdocs.com/responsive-images/background/sleek-cars-on-display-in-a-modern-studio-depicted-through-3d-rendering-and-illustration-powerpoint-background_12c8e13d4a__960_540.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #000000;
+            padding-top: 50px;
+            min-height: 100vh;
+        }
+        h1 {
+            font-weight: 600;
+            color: #05fb95;
+        }
+        .navbar {
+            justify-content: center;
+        }
+        .btn-circle {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .table {
+            background-color: rgba(255, 255, 255, 0.48);
+        }
+    </style>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Propietarios</h2>
+                <div class="d-flex justify-content-center align-items-center mb-4">
+                    <nav class="navbar navbar-expand-lg" style="background-color: #068eb78a;">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="{% url 'propietario' %}">
+                                <i class="" style="--fa-primary-color: #320ea0; --fa-secondary-color: #076a7d;"></i>
+                            </a>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'propietario' %}">Propietarios</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Vehículos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'modelo' %}">Modelos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'ciudad' %}">Ciudades</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <a href="{% url 'nuevoPropietario' %}" class="btn btn-success mt-3">Agregar Nuevo Propietario</a>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <br>
+            <div class="col-12">
+                <table class="table table-bordered table-striped table-hover" id="tbl-propietarios">
+                    <br>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NOMBRE</th>
+                            <th>APELLIDO</th>
+                            <th>CORREO</th>
+                            <th>TELEFONO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for propietario in propietarios %}
+                            <tr>
+                                <td>{{ propietario.id }}</td>
+                                <td>{{ propietario.nombre_pro }}</td>
+                                <td>{{ propietario.apellido_pro }}</td>
+                                <td>{{ propietario.email_pro}}</td>
+                                <td>{{ propietario.telefono_pro }}</td>
+                                <td>
+                                    <a href="{% url 'editarPropietario' propietario.id %}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="{% url 'eliminarPropietario' propietario.id %}" class="btn btn-danger" 
+                                        onclick="return confirm('¿Estás seguro de eliminar este propietario?')"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">No hay registros de propietarios.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tbl-propietarios').DataTable();
+        });
+    </script>
+{% endblock %}
